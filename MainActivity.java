@@ -141,24 +141,28 @@ public class MainActivity extends AppCompatActivity {
                 answerButton2.setText(GetRandomOtherAnswers() + "");
                 answerButton3.setText(GetRandomOtherAnswers() + "");
                 answerButton4.setText(GetRandomOtherAnswers() + "");
+                break;
             }
             case 2: {
                 answerButton1.setText(GetRandomOtherAnswers() + "");
                 answerButton2.setText(answer + "");
                 answerButton3.setText(GetRandomOtherAnswers() + "");
                 answerButton4.setText(GetRandomOtherAnswers() + "");
+                break;
             }
             case 3: {
                 answerButton1.setText(GetRandomOtherAnswers() + "");
                 answerButton2.setText(GetRandomOtherAnswers() + "");
                 answerButton3.setText(answer + "");
                 answerButton4.setText(GetRandomOtherAnswers() + "");
+                break;
             }
             default: {
                 answerButton1.setText(GetRandomOtherAnswers() + "");
                 answerButton2.setText(GetRandomOtherAnswers() + "");
                 answerButton3.setText(GetRandomOtherAnswers() + "");
                 answerButton4.setText(answer + "");
+                break;
             }
         }
 
