@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     TextView scoreTextView, questionTextView;
     Handler handler;
     int finalAnswer, score=0;
-    Runnable run1;
+    Runnable repeatedDelay;
 
 
     @Override
@@ -39,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
        handler = new Handler();
         progress.setProgress(20);
-        run1 = new Runnable() {
+        repeatedDelay = new Runnable() {
             @Override
             public void run() {
                 progress.setProgress(progress.getProgress()-1);
                 if (progress.getProgress()==0)
                 {
-                    handler.removeCallbacks(run1);
+                    handler.removeCallbacks(repeatedDelay);
                     GameOver("You ran out of time!");
                 }
                 else{
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(run1,500);
+        handler.postDelayed(repeatedDelay,500);
 
 
 
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void GameOver(String CauseOfLosing)
     {
-        handler.removeCallbacks(run1);
+        handler.removeCallbacks(repeatedDelay);
         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
         alert.setTitle("You lost!");
         alert.setMessage("Game Over! Your score is: " + score + " points.");
