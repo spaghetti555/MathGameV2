@@ -15,10 +15,10 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button answerButton1,answerButton2,answerButton3, answerButton4;
+    Button answerButton1, answerButton2, answerButton3, answerButton4;
     TextView scoreTextView, questionTextView;
     Handler handler;
-    int finalAnswer, score=0;
+    int finalAnswer, score = 0;
     Runnable repeatedDelayRunnable;
 
 
@@ -32,37 +32,31 @@ public class MainActivity extends AppCompatActivity {
         final int delayTimeInMiliSeconds = 500;
         final int max_timeProgressBar = 20;
 
-         answerButton1 = (Button) findViewById(R.id.answer1);
-         answerButton2 = (Button) findViewById(R.id.answer2);
-         answerButton3 = (Button) findViewById(R.id.answer3);
-         answerButton4 = (Button) findViewById(R.id.answer4);
+        answerButton1 = (Button) findViewById(R.id.answer1);
+        answerButton2 = (Button) findViewById(R.id.answer2);
+        answerButton3 = (Button) findViewById(R.id.answer3);
+        answerButton4 = (Button) findViewById(R.id.answer4);
 
         final ProgressBar timeProgressBar = (android.widget.ProgressBar) findViewById(R.id.ProgressBar);
 
 
-       handler = new Handler();
+        handler = new Handler();
         timeProgressBar.setProgress(max_timeProgressBar);
         repeatedDelayRunnable = new Runnable() {
             @Override
             public void run() {
-                timeProgressBar.setProgress(timeProgressBar.getProgress()-1);
-                if (timeProgressBar.getProgress()==0)
-                {
+                timeProgressBar.setProgress(timeProgressBar.getProgress() - 1);
+                if (timeProgressBar.getProgress() == 0) {
                     handler.removeCallbacks(repeatedDelayRunnable);
                     GameOver(getString(R.string.OutOfTimeMessage));
-                }
-                else{
-                    handler.postDelayed(this,delayTimeInMiliSeconds);
+                } else {
+                    handler.postDelayed(this, delayTimeInMiliSeconds);
                 }
 
             }
         };
 
-        handler.postDelayed(repeatedDelayRunnable,delayTimeInMiliSeconds);
-
-
-
-
+        handler.postDelayed(repeatedDelayRunnable, delayTimeInMiliSeconds);
 
 
         scoreTextView = (TextView) findViewById(R.id.scoreTextView);
@@ -73,33 +67,27 @@ public class MainActivity extends AppCompatActivity {
         answerButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if(Integer.parseInt(answerButton1.getText().toString())==finalAnswer)
-                    {
-                       score +=timeProgressBar.getProgress();
-                        scoreTextView.setText("Score: "+score);
-                        SetQuestion();
-                        timeProgressBar.setProgress(max_timeProgressBar);
-                    }
-                    else
-                        {
-                            GameOver(getString(R.string.WrongAnswerMessage));
+                if (Integer.parseInt(answerButton1.getText().toString()) == finalAnswer) {
+                    score += timeProgressBar.getProgress();
+                    scoreTextView.setText("Score: " + score);
+                    SetQuestion();
+                    timeProgressBar.setProgress(max_timeProgressBar);
+                } else {
+                    GameOver(getString(R.string.WrongAnswerMessage));
 
-                        }
+                }
             }
         });
 
         answerButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(answerButton2.getText().toString())==finalAnswer)
-                {
-                    score +=timeProgressBar.getProgress();
-                    scoreTextView.setText("Score: "+score);
+                if (Integer.parseInt(answerButton2.getText().toString()) == finalAnswer) {
+                    score += timeProgressBar.getProgress();
+                    scoreTextView.setText("Score: " + score);
                     SetQuestion();
                     timeProgressBar.setProgress(max_timeProgressBar);
-                }
-                else
-                {
+                } else {
                     GameOver(getString(R.string.WrongAnswerMessage));
 
                 }
@@ -108,15 +96,12 @@ public class MainActivity extends AppCompatActivity {
         answerButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(answerButton3.getText().toString())==finalAnswer)
-                {
-                    score +=timeProgressBar.getProgress();
-                    scoreTextView.setText("Score: "+score);
+                if (Integer.parseInt(answerButton3.getText().toString()) == finalAnswer) {
+                    score += timeProgressBar.getProgress();
+                    scoreTextView.setText("Score: " + score);
                     SetQuestion();
                     timeProgressBar.setProgress(max_timeProgressBar);
-                }
-                else
-                {
+                } else {
                     GameOver(getString(R.string.WrongAnswerMessage));
 
                 }
@@ -125,15 +110,12 @@ public class MainActivity extends AppCompatActivity {
         answerButton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(answerButton4.getText().toString())==finalAnswer)
-                {
-                    score +=timeProgressBar.getProgress();
-                    scoreTextView.setText("Score: "+score);
+                if (Integer.parseInt(answerButton4.getText().toString()) == finalAnswer) {
+                    score += timeProgressBar.getProgress();
+                    scoreTextView.setText("Score: " + score);
                     SetQuestion();
                     timeProgressBar.setProgress(max_timeProgressBar);
-                }
-                else
-                {
+                } else {
                     GameOver(getString(R.string.WrongAnswerMessage));
 
                 }
@@ -142,90 +124,78 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-    private void SetQuestion()
-    {
+    private void SetQuestion() {
 
         Random rand = new Random();
         int num1, num2, answer;
 
         num1 = rand.nextInt(50);
         num2 = rand.nextInt(50);
-        answer=num1+num2;
+        answer = num1 + num2;
 
         questionTextView.setText(num1 + " + " + num2);
 
-        switch (GetCorrectAnswerButtonAnswer())
-        {
-            case 1:
-            {
-                answerButton1.setText(answer+"");
-                answerButton2.setText(GetRandomOtherAnswers()+"");
-                answerButton3.setText(GetRandomOtherAnswers()+"");
-                answerButton4.setText(GetRandomOtherAnswers()+"");
+        switch (GetCorrectAnswerButtonAnswer()) {
+            case 1: {
+                answerButton1.setText(answer + "");
+                answerButton2.setText(GetRandomOtherAnswers() + "");
+                answerButton3.setText(GetRandomOtherAnswers() + "");
+                answerButton4.setText(GetRandomOtherAnswers() + "");
             }
-            case 2:
-            {
-                answerButton1.setText(GetRandomOtherAnswers()+"");
-                answerButton2.setText(answer+"");
-                answerButton3.setText(GetRandomOtherAnswers()+"");
-                answerButton4.setText(GetRandomOtherAnswers()+"");
+            case 2: {
+                answerButton1.setText(GetRandomOtherAnswers() + "");
+                answerButton2.setText(answer + "");
+                answerButton3.setText(GetRandomOtherAnswers() + "");
+                answerButton4.setText(GetRandomOtherAnswers() + "");
             }
-            case 3:
-            {
-                answerButton1.setText(GetRandomOtherAnswers()+"");
-                answerButton2.setText(GetRandomOtherAnswers()+"");
-                answerButton3.setText(answer+"");
-                answerButton4.setText(GetRandomOtherAnswers()+"");
+            case 3: {
+                answerButton1.setText(GetRandomOtherAnswers() + "");
+                answerButton2.setText(GetRandomOtherAnswers() + "");
+                answerButton3.setText(answer + "");
+                answerButton4.setText(GetRandomOtherAnswers() + "");
             }
-            default:
-            {
-                answerButton1.setText(GetRandomOtherAnswers()+"");
-                answerButton2.setText(GetRandomOtherAnswers()+"");
-                answerButton3.setText(GetRandomOtherAnswers()+"");
-                answerButton4.setText(answer+"");
+            default: {
+                answerButton1.setText(GetRandomOtherAnswers() + "");
+                answerButton2.setText(GetRandomOtherAnswers() + "");
+                answerButton3.setText(GetRandomOtherAnswers() + "");
+                answerButton4.setText(answer + "");
             }
         }
 
 
-        finalAnswer=answer;
+        finalAnswer = answer;
     }
 
-    private void GameOver(String CauseOfLosing)
-    {
+    private void GameOver(String CauseOfLosing) {
         handler.removeCallbacks(repeatedDelayRunnable);
         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
         alert.setTitle("You lost!");
         alert.setMessage("Game Over! Your score is: " + score + " points.");
-                alert.setCancelable(false);
-                alert.setPositiveButton("New game", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    }
-                });
-               alert.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                    }
-                });
+        alert.setCancelable(false);
+        alert.setPositiveButton("New game", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+        alert.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
 
         AlertDialog alertDialog = alert.create();
         alertDialog.show();
     }
 
 
-    private int GetCorrectAnswerButtonAnswer()
-    {
+    private int GetCorrectAnswerButtonAnswer() {
         Random r = new Random();
-        return (r.nextInt(4)+1);
+        return (r.nextInt(4) + 1);
     }
-    private int GetRandomOtherAnswers()
-    {
+
+    private int GetRandomOtherAnswers() {
         Random r = new Random();
         return r.nextInt(100);
     }
