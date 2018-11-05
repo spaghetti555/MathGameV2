@@ -15,11 +15,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button answer1,answer2,answer3,answer4;
+    Button answerButton1,answerButton2,answerButton3, answerButton4;
     TextView scoreTextView, questionTextView;
     Handler handler;
     int finalAnswer, score=0;
-    Runnable repeatedDelay;
+    Runnable repeatedDelayRunnable;
 
 
     @Override
@@ -29,33 +29,36 @@ public class MainActivity extends AppCompatActivity {
 
 //Why cant you make the buttons and textviews here? have to do it up there so i can use them in the method
 
-         answer1 = (Button) findViewById(R.id.answer1);
-         answer2 = (Button) findViewById(R.id.answer2);
-         answer3 = (Button) findViewById(R.id.answer3);
-         answer4 = (Button) findViewById(R.id.answer4);
+        final int delayTimeInMiliSeconds = 500;
+        final int max_timeProgressBar = 20;
 
-        final ProgressBar progress = (android.widget.ProgressBar) findViewById(R.id.ProgressBar);
+         answerButton1 = (Button) findViewById(R.id.answer1);
+         answerButton2 = (Button) findViewById(R.id.answer2);
+         answerButton3 = (Button) findViewById(R.id.answer3);
+         answerButton4 = (Button) findViewById(R.id.answer4);
+
+        final ProgressBar timeProgressBar = (android.widget.ProgressBar) findViewById(R.id.ProgressBar);
 
 
        handler = new Handler();
-        progress.setProgress(20);
-        repeatedDelay = new Runnable() {
+        timeProgressBar.setProgress(max_timeProgressBar);
+        repeatedDelayRunnable = new Runnable() {
             @Override
             public void run() {
-                progress.setProgress(progress.getProgress()-1);
-                if (progress.getProgress()==0)
+                timeProgressBar.setProgress(timeProgressBar.getProgress()-1);
+                if (timeProgressBar.getProgress()==0)
                 {
-                    handler.removeCallbacks(repeatedDelay);
-                    GameOver("You ran out of time!");
+                    handler.removeCallbacks(repeatedDelayRunnable);
+                    GameOver(getString(R.string.OutOfTimeMessage));
                 }
                 else{
-                    handler.postDelayed(this,500);
+                    handler.postDelayed(this,delayTimeInMiliSeconds);
                 }
 
             }
         };
 
-        handler.postDelayed(repeatedDelay,500);
+        handler.postDelayed(repeatedDelayRunnable,delayTimeInMiliSeconds);
 
 
 
@@ -67,71 +70,71 @@ public class MainActivity extends AppCompatActivity {
 
         SetQuestion();
 
-        answer1.setOnClickListener(new View.OnClickListener() {
+        answerButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if(Integer.parseInt(answer1.getText().toString())==finalAnswer)
+                    if(Integer.parseInt(answerButton1.getText().toString())==finalAnswer)
                     {
-                       score +=progress.getProgress();
+                       score +=timeProgressBar.getProgress();
                         scoreTextView.setText("Score: "+score);
                         SetQuestion();
-                        progress.setProgress(20);
+                        timeProgressBar.setProgress(max_timeProgressBar);
                     }
                     else
                         {
-                            GameOver("Wrong answer!");
+                            GameOver(getString(R.string.WrongAnswerMessage));
 
                         }
             }
         });
 
-        answer2.setOnClickListener(new View.OnClickListener() {
+        answerButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(answer2.getText().toString())==finalAnswer)
+                if(Integer.parseInt(answerButton2.getText().toString())==finalAnswer)
                 {
-                    score +=progress.getProgress();
+                    score +=timeProgressBar.getProgress();
                     scoreTextView.setText("Score: "+score);
                     SetQuestion();
-                    progress.setProgress(20);
+                    timeProgressBar.setProgress(max_timeProgressBar);
                 }
                 else
                 {
-                    GameOver("Wrong answer!");
+                    GameOver(getString(R.string.WrongAnswerMessage));
 
                 }
             }
         });
-        answer3.setOnClickListener(new View.OnClickListener() {
+        answerButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(answer3.getText().toString())==finalAnswer)
+                if(Integer.parseInt(answerButton3.getText().toString())==finalAnswer)
                 {
-                    score +=progress.getProgress();
+                    score +=timeProgressBar.getProgress();
                     scoreTextView.setText("Score: "+score);
                     SetQuestion();
-                    progress.setProgress(20);
+                    timeProgressBar.setProgress(max_timeProgressBar);
                 }
                 else
                 {
-                    GameOver("Wrong answer!");
+                    GameOver(getString(R.string.WrongAnswerMessage));
 
                 }
             }
         });
-        answer4.setOnClickListener(new View.OnClickListener() {
+        answerButton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(answer4.getText().toString())==finalAnswer)
+                if(Integer.parseInt(answerButton4.getText().toString())==finalAnswer)
                 {
-                    score +=progress.getProgress();
+                    score +=timeProgressBar.getProgress();
                     scoreTextView.setText("Score: "+score);
                     SetQuestion();
-                    progress.setProgress(20);
+                    timeProgressBar.setProgress(max_timeProgressBar);
                 }
                 else
                 {
-                    GameOver("Wrong answer!");
+                    GameOver(getString(R.string.WrongAnswerMessage));
 
                 }
             }
@@ -155,35 +158,35 @@ public class MainActivity extends AppCompatActivity {
 
         questionTextView.setText(num1 + " + " + num2);
 
-        switch (rand.nextInt(4)+1)
+        switch (GetCorrectAnswerButtonAnswer())
         {
             case 1:
             {
-                answer1.setText(answer+"");
-                answer2.setText(rand.nextInt(100)+"");
-                answer3.setText(rand.nextInt(100)+"");
-                answer4.setText(rand.nextInt(100)+"");
+                answerButton1.setText(answer+"");
+                answerButton2.setText(GetRandomOtherAnswers()+"");
+                answerButton3.setText(GetRandomOtherAnswers()+"");
+                answerButton4.setText(GetRandomOtherAnswers()+"");
             }
             case 2:
             {
-                answer1.setText(rand.nextInt(100)+"");
-                answer2.setText(answer+"");
-                answer3.setText(rand.nextInt(100)+"");
-                answer4.setText(rand.nextInt(100)+"");
+                answerButton1.setText(GetRandomOtherAnswers()+"");
+                answerButton2.setText(answer+"");
+                answerButton3.setText(GetRandomOtherAnswers()+"");
+                answerButton4.setText(GetRandomOtherAnswers()+"");
             }
             case 3:
             {
-                answer1.setText(rand.nextInt(100)+"");
-                answer2.setText(rand.nextInt(100)+"");
-                answer3.setText(answer+"");
-                answer4.setText(rand.nextInt(100)+"");
+                answerButton1.setText(GetRandomOtherAnswers()+"");
+                answerButton2.setText(GetRandomOtherAnswers()+"");
+                answerButton3.setText(answer+"");
+                answerButton4.setText(GetRandomOtherAnswers()+"");
             }
             default:
             {
-                answer1.setText(rand.nextInt(100)+"");
-                answer2.setText(rand.nextInt(100)+"");
-                answer3.setText(rand.nextInt(100)+"");
-                answer4.setText(answer+"");
+                answerButton1.setText(GetRandomOtherAnswers()+"");
+                answerButton2.setText(GetRandomOtherAnswers()+"");
+                answerButton3.setText(GetRandomOtherAnswers()+"");
+                answerButton4.setText(answer+"");
             }
         }
 
@@ -193,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void GameOver(String CauseOfLosing)
     {
-        handler.removeCallbacks(repeatedDelay);
+        handler.removeCallbacks(repeatedDelayRunnable);
         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
         alert.setTitle("You lost!");
         alert.setMessage("Game Over! Your score is: " + score + " points.");
@@ -216,5 +219,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private int GetCorrectAnswerButtonAnswer()
+    {
+        Random r = new Random();
+        return (r.nextInt(4)+1);
+    }
+    private int GetRandomOtherAnswers()
+    {
+        Random r = new Random();
+        return r.nextInt(100);
+    }
 
 }
