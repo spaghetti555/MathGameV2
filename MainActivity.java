@@ -10,16 +10,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button answerButton1, answerButton2, answerButton3, answerButton4;
-    TextView scoreTextView, questionTextView;
+    Button answerButton1;
+    Button answerButton2;
+    Button answerButton3;
+    Button answerButton4;
+    TextView scoreTextView;
+    TextView questionTextView;
     Handler handler;
     int finalAnswer, score = 0;
     Runnable repeatedDelayRunnable;
+    ProgressBar timeProgressBar;
+    int max_timeProgressBar = 20;
+    int delayTimeInMiliSeconds=500;
 
 
     @Override
@@ -27,17 +35,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//Why cant you make the buttons and textviews here? have to do it up there so i can use them in the method
-
-        final int delayTimeInMiliSeconds = 500;
-        final int max_timeProgressBar = 20;
 
         answerButton1 = (Button) findViewById(R.id.answer1);
         answerButton2 = (Button) findViewById(R.id.answer2);
         answerButton3 = (Button) findViewById(R.id.answer3);
         answerButton4 = (Button) findViewById(R.id.answer4);
 
-        final ProgressBar timeProgressBar = (android.widget.ProgressBar) findViewById(R.id.ProgressBar);
+        timeProgressBar = (android.widget.ProgressBar) findViewById(R.id.ProgressBar);
 
 
         handler = new Handler();
@@ -64,63 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
         SetQuestion();
 
-        answerButton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Integer.parseInt(answerButton1.getText().toString()) == finalAnswer) {
-                    score += timeProgressBar.getProgress();
-                    scoreTextView.setText("Score: " + score);
-                    SetQuestion();
-                    timeProgressBar.setProgress(max_timeProgressBar);
-                } else {
-                    GameOver(getString(R.string.WrongAnswerMessage));
+        answerButton1.setOnClickListener(this);
+        answerButton2.setOnClickListener(this);
+        answerButton3.setOnClickListener(this);
+        answerButton4.setOnClickListener(this);
 
-                }
-            }
-        });
 
-        answerButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Integer.parseInt(answerButton2.getText().toString()) == finalAnswer) {
-                    score += timeProgressBar.getProgress();
-                    scoreTextView.setText("Score: " + score);
-                    SetQuestion();
-                    timeProgressBar.setProgress(max_timeProgressBar);
-                } else {
-                    GameOver(getString(R.string.WrongAnswerMessage));
-
-                }
-            }
-        });
-        answerButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Integer.parseInt(answerButton3.getText().toString()) == finalAnswer) {
-                    score += timeProgressBar.getProgress();
-                    scoreTextView.setText("Score: " + score);
-                    SetQuestion();
-                    timeProgressBar.setProgress(max_timeProgressBar);
-                } else {
-                    GameOver(getString(R.string.WrongAnswerMessage));
-
-                }
-            }
-        });
-        answerButton4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Integer.parseInt(answerButton4.getText().toString()) == finalAnswer) {
-                    score += timeProgressBar.getProgress();
-                    scoreTextView.setText("Score: " + score);
-                    SetQuestion();
-                    timeProgressBar.setProgress(max_timeProgressBar);
-                } else {
-                    GameOver(getString(R.string.WrongAnswerMessage));
-
-                }
-            }
-        });
     }
 
 
@@ -204,4 +157,19 @@ public class MainActivity extends AppCompatActivity {
         return r.nextInt(100);
     }
 
+    @Override
+    public void onClick(View v) {
+
+
+        if (Integer.parseInt(((Button)v).getText().toString()) == finalAnswer) {
+            score += timeProgressBar.getProgress();
+            scoreTextView.setText("Score: " + score);
+            SetQuestion();
+            timeProgressBar.setProgress(max_timeProgressBar);
+        } else {
+            GameOver(getString(R.string.WrongAnswerMessage));
+
+        }
+
+    }
 }
